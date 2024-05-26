@@ -1,0 +1,136 @@
+{
+	"info": {
+		"_postman_id": "b3b43f98-7906-43a4-aa8e-e6e050e18f67",
+		"name": "ChhayaGolang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17885209"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/create?name=chhaya&age=24&email=chhaya&phone=84125&address=test address",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"create"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "chhaya"
+						},
+						{
+							"key": "age",
+							"value": "24"
+						},
+						{
+							"key": "email",
+							"value": "chhaya"
+						},
+						{
+							"key": "phone",
+							"value": "84125"
+						},
+						{
+							"key": "address",
+							"value": "test address"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/update?name=chhay00000000a&age=24&email=chhaya&phone=84125&address=test address&id=3",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"update"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "chhay00000000a"
+						},
+						{
+							"key": "age",
+							"value": "24"
+						},
+						{
+							"key": "email",
+							"value": "chhaya"
+						},
+						{
+							"key": "phone",
+							"value": "84125"
+						},
+						{
+							"key": "address",
+							"value": "test address"
+						},
+						{
+							"key": "id",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/delete?id=2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List of User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/user/list",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"user",
+						"list"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
