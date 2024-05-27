@@ -18,7 +18,7 @@ func RegisterHandler(db *sql.DB) {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/user/update/{id}", UpdateUser(db)).Methods("UPDATE")
+	router.HandleFunc("/user/update/{id}", UpdateUser(db)).Methods("PUT")
 	router.HandleFunc("/user/delete/{id}", DeleteUser(db)).Methods("DELETE")
 	http.Handle("/", router)
 
