@@ -99,11 +99,12 @@ func DeleteUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		idStr, ok := vars["id"]
+		fmt.Println(idStr)
 		if !ok {
 			http.Error(w, "User ID not provided", http.StatusBadRequest)
 			return
 		}
-		deleteID	, err := strconv.Atoi(idStr)
+		deleteID, err := strconv.Atoi(idStr)
 		if err != nil {
 			http.Error(w, "Invalid user ID", http.StatusBadRequest)
 			return
