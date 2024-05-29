@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"strconv"
 
+	"github.com/go-playground/validator"
 	"github.com/gorilla/mux"
 	excelize "github.com/xuri/excelize/v2"
 )
@@ -32,6 +33,9 @@ func PrintName(w http.ResponseWriter, r *http.Request) {
 
 func CreateUser(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+
 		user := models.User{}
 		err := json.NewDecoder(r.Body).Decode(&user)
 		if err != nil {
@@ -40,6 +44,24 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 			http.Error(w, "Invalid request body", http.StatusBadRequest)
 			return
 		}
+
+		validate := validator.New()
+
+		// Validate the request
+		err = validate.Struct(user)
+		if err != nil {
+			// Handle validation errors
+			for _, err := range err.(validator.ValidationErrors) {
+				errorMesasage := fmt.Sprintf("Validation error for field %s: %s", err.Field(), err.Tag())
+				fmt.Printf(errorMesasage)
+				json.NewEncoder(w).Encode(models.Result{Status: "failed", Message: errorMesasage})
+				return
+			}
+			json.NewEncoder(w).Encode(models.Result{Status: "failed", Message: "Invalid Request"})
+
+			return
+		}
+
 		fmt.Printf("Model Value %#v", user)
 		fmt.Println(user.Address)
 		result, err := crud.CreateUser(db, user)
@@ -51,8 +73,6 @@ func CreateUser(db *sql.DB) http.HandlerFunc {
 			fmt.Println("User Created Successfully")
 		}
 
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(models.Result{Status: "success", Message: "User Created Successfully"})
 	}
 }
