@@ -1,15 +1,18 @@
 package api
 
 import (
+	"REST-API/REST-API/common"
 	"REST-API/REST-API/crud"
 	"REST-API/REST-API/models"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"reflect"
 	"strconv"
 
 	"github.com/gorilla/mux"
+	excelize "github.com/xuri/excelize/v2"
 )
 
 func PrintName(w http.ResponseWriter, r *http.Request) {
@@ -133,5 +136,49 @@ func ListOfUser(db *sql.DB) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(userdata)
+	}
+
+}
+func ExportListOfUser(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		userdata, err := crud.ListOfUser(db)
+		f := excelize.NewFile()
+
+		var cell string
+
+		for index, user := range userdata {
+			typeOfField := reflect.TypeOf(user)
+			valueOfField := reflect.ValueOf(user)
+
+			for i := 0; i < typeOfField.NumField(); i++ {
+				field := typeOfField.Field(i)
+				value := valueOfField.Field(i).Interface()
+				fmt.Printf("%s: %v\n", field.Name, value)
+
+				cell = common.ToGetAlphaString(i+1) + fmt.Sprintf("%d", index)
+				f.SetCellValue("Sheet1", cell, value)
+
+			}
+			// Set value of a cell
+			cell = common.ToGetAlphaString(index) + fmt.Sprintf("%d", index)
+
+		}
+
+		// Save the Excel file
+		randomString := common.GenerateRandomString(5)
+		filepath := "example_" + randomString + ".xlsx"
+		if err := f.SaveAs(filepath); err != nil {
+			fmt.Println("Error saving Excel file:", err)
+			return
+		}
+		currentDir := common.GetWorkingDirectory()
+		fmt.Println("Excel file created successfully.")
+
+		if err != nil {
+			http.Error(w, "Failed to fetch users", http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(currentDir + "/" + filepath)
 	}
 }

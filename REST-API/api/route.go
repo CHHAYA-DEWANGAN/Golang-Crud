@@ -13,6 +13,7 @@ func RegisterHandler(db *sql.DB) {
 	// http.HandleFunc("/user/update/{id}", UpdateUser(db))
 	// http.HandleFunc("/user/delete/{id}", DeleteUser(db))
 	http.HandleFunc("/user/list", ListOfUser(db))
+	http.HandleFunc("/user/list/export", ExportListOfUser(db))
 
 	http.HandleFunc("/callexternalapi", CallExternalApi)
 
