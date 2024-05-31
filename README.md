@@ -9,7 +9,8 @@ Create a directory within your project to store migration files. A common conven
 Generate a new migration:
 
 Use the migrate create command to generate a new migration file with an appropriate version number:
-migrate create -dir db/migrations -ext .sql NewTableName  # Replace "NewTableName" with your actual table name
+
+- **migrate create -dir db/migrations -ext .sql NewTableName  # Replace "NewTableName" with your actual table name**
 
 This command creates two files within the specified directory:
 YYYYMMDD_HHMMSS_NewTableName_up.sql: Contains SQL statements to create the table (up migration).
@@ -34,7 +35,7 @@ Run migrations:
 
 Apply the migrations to your database:
 Bash
-migrate -path db/migrations -database "your_database_url" up
+**migrate -path db/migrations -database "your_database_url" up**
 Use code with caution.
 content_copy
 Replace "your_database_url" with the connection string for your database (refer to your database driver's documentation for URL format).
